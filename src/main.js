@@ -480,7 +480,7 @@ function formatterCurrency (number, places, symbol) {
 }
 Vue.prototype.formatterCurrency = formatterCurrency
 
-Vue.prototype.domain = ''
+Vue.prototype.domain = 'http://m.msdfanli.com'
 
 Vue.filter('money', function (number, places, symbol) {
   number = number || 0

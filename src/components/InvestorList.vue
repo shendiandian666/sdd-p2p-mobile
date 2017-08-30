@@ -1,27 +1,31 @@
 <template>
 <div>
 
-  <cell title="向左滑动删除" disabled>
+  <v-scroll :on-refresh="onRefresh" :on-infinite="onInfinite">
+        <div style="margin-bottom: -40px;">
+
+    <cell title="向左滑动删除" disabled>
       <div slot="default">
         <x-button mini type="primary" slot="right" @click.native="add">添加</x-button>
       </div>
     </cell>
 
     <swipeout class="vux-1px-tb">
-
       <swipeout-item transition-mode="follow" v-for="(item, index) in investorList" :key="index">
         <div slot="right-menu">
           <swipeout-button @click.native="del(item.id)" type="warn">删除</swipeout-button>
         </div>
         <div slot="content" class="demo-content vux-1px-t">
-        <img src="../assets/investor.svg" width="20" height="20"/><span class="pad-left">{{item.name}}</span> {{item.mobile}}
+          <img src="../assets/investor.svg" width="20" height="20"/>
+          <span class="pad-left">{{item.name}}</span> {{item.mobile}}
         </div>
       </swipeout-item>
 
    </swipeout>
     <load-more v-show="loadmore" tip="正在加载"></load-more>
     <load-more v-show="loadbottom" :show-loading="false" tip="我是有底线的" background-color="#fbf9fe"></load-more>
-
+    </div>
+  </v-scroll>
 
   <div>
     <popup v-model="show">
@@ -104,14 +108,16 @@ export default {
     },
     getInvestorList (pageNum, pageSize) {
       var that = this
+      this.loadmore = true
       var params = 'pageNum=' + pageNum + '&pageSize=' + pageSize
-      this.post('/api/auth/investor/get_investor_list', params, function (response) {
+      this.noLoadPost('/api/auth/investor/get_investor_list', params, function (response) {
         that.investorList = response.data
+        that.loadmore = false
       })
     },
     onRefresh (done) {
-      // this.loadingText = ''
       this.loadbottom = false
+      this.investorList = []
       this.pageNum = 1
       this.getInvestorList(1, 15)
       done()
@@ -126,7 +132,7 @@ export default {
         this.pageNum++
         let pageNum = this.pageNum
         var params = 'pageNum=' + pageNum + '&pageSize=' + this.pageSize
-        this.post('/api/auth/investor/get_investor_list', params, function (response) {
+        this.noLoadPost('/api/auth/investor/get_investor_list', params, function (response) {
           // this.loadingText = ''
           that.downdata = response.data
           that.investorList = that.investorList.concat(that.downdata)
@@ -155,7 +161,7 @@ export default {
   padding-right:10px;
 }
 .pad-left {
-  padding-left:10px;
+  padding-left:30px;
   display:-moz-inline-box;
   display:inline-block;
   width:80px;

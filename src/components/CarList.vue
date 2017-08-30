@@ -1,10 +1,11 @@
 <template>
   <div class="activity-list">
 
-    
       <swiper auto dots-position="center">
-        <swiper-item class="swiper-demo-img">
-          <div class="vux-img" style="background-image: url(http://m.msdfanli.com/upload/banner/mobile/mobile2.jpg);"></div>
+        <swiper-item class="swiper-demo-img" v-for="(item, index) in imgList" :key="index">
+          <router-link :to="item.url">
+            <div class="vux-img" :style="'background-image: url('+item.img+');'"></div>
+          </router-link>
         </swiper-item>
       </swiper>
 
@@ -40,12 +41,6 @@
 import { XCircle, Search, LoadMore, Swiper, SwiperItem, Cell, Group, Badge, Divider, Tab, TabItem } from 'vux'
 import Scroll from './pulldown'
 
-const imgList = [
-  'https://static.vux.li/demo/1.jpg',
-  'https://static.vux.li/demo/2.jpg',
-  'https://static.vux.li/demo/3.jpg'
-]
-
 export default {
   components: {
     XCircle,
@@ -63,7 +58,8 @@ export default {
   },
   data () {
     return {
-      demo04_list: imgList,
+      imgList: [],
+      imgType: 4,
       strokeWidth: 15,
       trailWidth: 15,
       index: 0,
@@ -78,6 +74,12 @@ export default {
     }
   },
   created: function () {
+    var params = 'type=' + this.imgType
+    this.$http.post(this.domain + '/api/anon/index/getSwiper', params).then((response) => {
+      this.imgList = response.data.data
+    }).catch((response) => {
+      this.$vux.toast.text('系统异常!', 'middle')
+    })
     this.fetchData(this.pageNum, this.pageSize)
   },
   watch: {

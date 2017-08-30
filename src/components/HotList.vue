@@ -3,11 +3,10 @@
   <div class="activity-list">
       
     <swiper auto dots-position="center">
-      <swiper-item class="swiper-demo-img">
-        <div class="vux-img" style="background-image: url(http://m.msdfanli.com/upload/banner/mobile/mobile1.jpg);"></div>
-      </swiper-item>
-      <swiper-item class="swiper-demo-img">
-          <div class="vux-img" style="background-image: url(http://m.msdfanli.com/upload/banner/mobile/mobile3.jpg);"></div>
+      <swiper-item class="swiper-demo-img" v-for="(item, index) in imgList" :key="index">
+        <router-link :to="item.url">
+          <div class="vux-img" :style="'background-image: url('+item.img+');'"></div>
+        </router-link>
       </swiper-item>
     </swiper>
 
@@ -52,12 +51,6 @@
 import { Loading, Spinner, LoadMore, Swiper, SwiperItem, Scroller, Cell, Group, Badge, Divider, Flexbox, FlexboxItem } from 'vux'
 import Scroll from './pulldown'
 
-const imgList = [
-  '../assets/1.jpg',
-  'https://static.vux.li/demo/2.jpg',
-  'https://static.vux.li/demo/3.jpg'
-]
-
 export default {
   components: {
     Loading,
@@ -77,14 +70,22 @@ export default {
   data () {
     return {
       cellTitle: '首投 xxx金融',
-      demo04_list: imgList,
+      imgList: [],
+      imgType: 2,
       loading: false,
       spinner: false,
       loadmore: false,
+      loadbottom: false,
       activityList: []
     }
   },
   created: function () {
+    var params = 'type=' + this.imgType
+    this.$http.post(this.domain + '/api/anon/index/getSwiper', params).then((response) => {
+      this.imgList = response.data.data
+    }).catch((response) => {
+      this.$vux.toast.text('系统异常!', 'middle')
+    })
     this.fetchData()
   },
   watch: {
@@ -94,7 +95,7 @@ export default {
   methods: {
     fetchData: function () {
       this.loadmore = true
-      this.$http.get(this.domain + '/api/anon/activity/getHotActivity', '').then((response) => {
+      this.$http.post(this.domain + '/api/anon/activity/getHotActivity', '').then((response) => {
         this.activityList = response.data.data
         this.loadmore = false
       }).catch((response) => {
