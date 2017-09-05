@@ -110,6 +110,7 @@ export default {
     onItemClick (index) {
       this.index = index
       var grade = this.getGrade(index)
+      this.activityList = []
       this.loadmore = true
       var params = 'grade=' + grade
       this.$http.post(this.domain + '/api/anon/activity/getActivityList', params).then((response) => {
@@ -133,6 +134,7 @@ export default {
       })
     },
     getSearch (val) {
+      this.activityList = []
       this.loadmore = true
       // var grade = this.getGrade(this.index)
       this.index = 0

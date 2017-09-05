@@ -26,12 +26,12 @@
             <span class="demo-icon-22" slot="icon">&#xe633;</span>
             <span slot="label">活动</span>
           </tabbar-item>
-          <tabbar-item :link="{path:'/car/CarList'}" :selected="isCar">
+          <!--<tabbar-item :link="{path:'/car/CarList'}" :selected="isCar">
             <img slot="icon" src="./assets/car.svg"/>
             <img slot="icon-active" src="./assets/car_active.svg"/>
             <span class="demo-icon-22" slot="icon">&#xe633;</span>
             <span slot="label">搭车</span>
-          </tabbar-item>
+          </tabbar-item>-->
           <tabbar-item :link="{path:'/home/Login'}" :selected="isHome">
             <img slot="icon" src="./assets/user.svg"/>
             <img slot="icon-active" src="./assets/user_active.svg"/>

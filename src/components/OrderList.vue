@@ -4,8 +4,14 @@
       <v-scroll :on-refresh="onRefresh" :on-infinite="onInfinite">
         <div style="margin-bottom: -40px;">
           <group title="日期条件">
-            <datetime v-model="invest_date" @on-change="dateChange" title="投资日期"></datetime>
-            <datetime v-model="received_date" @on-change="dateChange" title="回款日期"></datetime>
+            <flexbox :gutter="0">
+                <flexbox-item>
+                  <datetime v-model="invest_date" @on-change="dateChange" title="投资"></datetime>
+                </flexbox-item>
+                <flexbox-item>
+                  <datetime v-model="received_date" @on-change="dateChange" title="回款"></datetime>
+                </flexbox-item>
+              </flexbox>
           </group>
           <group title="交单记录">
             <div v-for="(item, index) in filterOrderList" :key="index" class="vux-1px-t">

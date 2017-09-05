@@ -71,9 +71,9 @@ export default {
       that.activity.isFirst = that.activity.isFirst === '1' ? '首投' : '复投'
       that.plan = data.plan
       that.plan.list = []
-      that.plan.depositDisplay_s = that.formatterCurrency(that.plan.depositDisplay_s, 0, '')
-      that.plan.depositDisplay_e = (that.plan.depositDisplay_e !== 0 ? (that.plan.depositDisplay_e === 1 ? '无上限' : that.formatterCurrency(that.plan.depositDisplay_e, 0, '')) : '')
-      that.plan.list.push({label: '投资金额', value: that.plan.depositDisplay_s + ' - ' + that.plan.depositDisplay_e})
+      // that.plan.depositDisplay_s = that.formatterCurrency(that.plan.depositDisplay_s, 0, '')
+      // that.plan.depositDisplay_e = (that.plan.depositDisplay_e !== 0 ? (that.plan.depositDisplay_e === 1 ? '无上限' : that.formatterCurrency(that.plan.depositDisplay_e, 0, '')) : '')
+      that.plan.list.push({label: '投资金额', value: that.plan.depositDisplay_txt})
       that.plan.rebate = that.formatterCurrency(that.plan.rebate, 2, '')
       that.plan.list.push({label: '马上多返利', value: that.plan.rebate + '%'})
       that.plan.totalIncome = that.formatterCurrency(that.plan.totalIncome, 2, '')
@@ -81,9 +81,9 @@ export default {
       that.plan.list.push({label: '年化利率', value: that.plan.rate + '%'})
       that.plan.redback = that.formatterCurrency(that.plan.redback, 2, '')
       that.plan.list.push({label: '红包', value: that.plan.redback})
-      that.plan.list.push({label: '总收益', value: '≈ ' + that.plan.totalIncome + '+'})
-      that.plan.interest = '≈ ' + that.formatterCurrency(that.plan.interest, 2, '') + '%'
-      that.plan.list.push({label: '综合年化', value: that.plan.interest})
+      that.plan.list.push({label: '总收益', value: '≈ ' + that.plan.totalIncome_txt})
+      that.plan.yearRate = that.formatterCurrency(that.plan.year_rate, 2, '') + '%'
+      that.plan.list.push({label: '综合年化', value: '≈ ' + that.plan.yearRate})
       for (var i = 0; i < data.investorList.length; i++) {
         var investor = data.investorList[i]
         that.investorList.push({key: investor.id, value: investor.name})

@@ -12,7 +12,7 @@
 
     <v-scroll :on-refresh="onRefresh" :on-infinite="onInfinite" style="margin-top: 182px;">
     <div style="margin-bottom: -40px;">
-        <group title="推荐活动" style="margin-bottom: 50px;">
+        <group title="热门活动" style="margin-bottom: 50px;">
           <spinner type="ios" v-show="spinner"></spinner>
           
           <cell :title="cellTitle" v-for="(item, index) in activityList" :key="index" :link="{path:'/middle/Activity/' + item.id}">

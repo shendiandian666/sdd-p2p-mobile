@@ -8,7 +8,7 @@
       <cell title="方案名称" :value="OrderDetail.plan_name"></cell>
       <cell title="投资项目" :value="OrderDetail.plan_item"></cell>
       <cell title="投资金额" :value="OrderDetail.deposit_range"></cell>
-      <cell title="投资周期" :value="OrderDetail.days"></cell>
+      <cell title="投资周期" :value="OrderDetail.days+'天'"></cell>
       <cell title="返现比例" :value="OrderDetail.rebate+'%'"></cell>
     </group>
     <divider>交单信息</divider>
