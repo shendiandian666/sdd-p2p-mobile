@@ -81,6 +81,7 @@ export default {
     }
   },
   created: function () {
+    this.$store.commit('updateTitle', '活动')
     this.fetchData(this.pageNum, this.pageSize)
   },
   watch: {

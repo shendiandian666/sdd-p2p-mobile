@@ -28,6 +28,9 @@ export default {
       value: this.$route.params.value
     }
   },
+  created () {
+    this.$store.commit('updateTitle', '修改通知邮箱')
+  },
   methods: {
     update () {
       if (!this.$refs.mail.valid) {

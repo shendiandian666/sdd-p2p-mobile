@@ -39,6 +39,9 @@ export default {
       mobile_code: ''
     }
   },
+  created () {
+    this.$store.commit('updateTitle', '设置提现账号')
+  },
   computed: {
     mobile: {
       get: function () {

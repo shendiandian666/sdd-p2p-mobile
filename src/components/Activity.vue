@@ -69,7 +69,10 @@ export default {
     this.post('/api/anon/activity/getActivity', params, function (response) {
       var data = response.data
       that.activity = data.activity
+      that.$store.commit('updateTitle', data.activity.name)
       // that.logo = that.activity.platform_img
+      var logo = that.activity.platform_img
+      that.activity.platform_img = logo.replace('www.msdfanli.com', 'm.msdfanli.com')
       that.activity.platform_tags = that.activity.platform_tags.split(',')
       that.activity.isFirstCss = that.activity.isFirst === '1' ? 'title-l' : 'title-l-2'
       that.activity.isFirst = that.activity.isFirst === '1' ? '首投' : '复投'
@@ -85,15 +88,15 @@ export default {
         // item.depositDisplay_s = that.formatterCurrency(item.depositDisplay_s, 0, '')
         // item.depositDisplay_e = (item.depositDisplay_e !== 0 ? (item.depositDisplay_e === 1 ? '无上限' : that.formatterCurrency(item.depositDisplay_e, 0, '')) : '')
         item.list = []
-        item.list.push({label: '投资金额', value: item.depositDisplay_txt})
+        item.list.push({label: '投资金额', value: '¥ ' + item.depositDisplay_txt})
         item.rebate = that.formatterCurrency(item.rebate, 2, '')
         item.list.push({label: '马上多返利', value: item.rebate + '%'})
         item.rate = that.formatterCurrency(item.rate, 2, '')
         item.list.push({label: '年化利率', value: item.rate + '%'})
         item.redback = that.formatterCurrency(item.redback, 2, '')
-        item.list.push({label: '红包', value: item.redback})
-        item.totalIncome = that.formatterCurrency(item.totalIncome, 2, '')
-        item.list.push({label: '总收益', value: '≈ ' + item.totalIncome_txt})
+        item.list.push({label: '红包', value: '¥ ' + item.redback})
+        // item.totalIncome = that.formatterCurrency(item.totalIncome, 2, '')
+        item.list.push({label: '总收益', value: '≈ ¥ ' + item.totalIncome_txt})
         item.yearRate = that.formatterCurrency(item.year_rate, 2, '') + '%'
         item.list.push({label: '综合年化', value: '≈ ' + item.yearRate})
         return true

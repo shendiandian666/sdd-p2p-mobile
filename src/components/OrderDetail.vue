@@ -41,6 +41,7 @@ export default {
     Cell
   },
   created: function () {
+    this.$store.commit('updateTitle', '交单详情')
     var $this = this
     var params = 'id=' + this.$route.params.id
     this.post('/api/auth/order/order_detail', params, function (response) {

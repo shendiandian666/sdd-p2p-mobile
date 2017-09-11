@@ -32,6 +32,9 @@ export default {
     Group,
     Cell
   },
+  created () {
+    this.$store.commit('updateTitle', '设置')
+  },
   computed: {
     ...mapState({
       nick_name: state => state.vux.userInfo.nick_name,

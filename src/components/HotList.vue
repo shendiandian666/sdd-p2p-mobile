@@ -80,6 +80,7 @@ export default {
     }
   },
   created: function () {
+    this.$store.commit('updateTitle', '马上多返利')
     var params = 'type=' + this.imgType
     this.$http.post(this.domain + '/api/anon/index/getSwiper', params).then((response) => {
       this.imgList = response.data.data

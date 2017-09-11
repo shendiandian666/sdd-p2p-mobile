@@ -74,6 +74,7 @@ export default {
     }
   },
   mounted () {
+    this.$store.commit('updateTitle', '投资人')
     // investorlist
     this.getInvestorList(this.pageNum, this.pageSize)
   },

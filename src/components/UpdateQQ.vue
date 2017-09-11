@@ -28,6 +28,9 @@ export default {
       value: this.$route.params.value
     }
   },
+  created () {
+    this.$store.commit('updateTitle', '修改联系QQ')
+  },
   methods: {
     update () {
       var that = this

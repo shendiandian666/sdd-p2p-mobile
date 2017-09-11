@@ -35,6 +35,7 @@ export default {
     Cell
   },
   created () {
+    this.$store.commit('updateTitle', '个人中心')
     this.getUserInfo()
   },
   computed: {

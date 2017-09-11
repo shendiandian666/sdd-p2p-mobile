@@ -55,6 +55,7 @@ export default {
     }
   },
   created () {
+    this.$store.commit('updateTitle', '登录')
     if (localStorage.getItem('msd.username') !== null) {
       this.username = localStorage.getItem('msd.username')
     }

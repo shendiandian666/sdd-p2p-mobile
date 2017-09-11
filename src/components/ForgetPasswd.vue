@@ -30,6 +30,9 @@ export default {
       password: ''
     }
   },
+  created () {
+    this.$store.commit('updateTitle', '重置密码')
+  },
   methods: {
     resendMsg () {
       if (!this.$refs.mobile.valid) {

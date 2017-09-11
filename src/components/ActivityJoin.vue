@@ -24,6 +24,7 @@
       <x-input title="实投金额" keyboard="number" placeholder="填写数字,例如:10000" v-model="deposit" ref="deposit" required></x-input>
       <selector title="投资人" :options="investorList" @on-change="onChange" ref="investor" required></selector>
       <datetime v-model="TODAY" @on-change="dateChange" title="投资日期" ref="date" required></datetime>
+      <x-input v-show="activity.requiredUsername" title="投资账号" keyboard="text" placeholder="投资平台注册的用户名" v-model="username" ref="username" required></x-input>
     </group>
 
     <div style="margin: 20px 10px;">
@@ -52,7 +53,8 @@ export default {
       TODAY: '2017-01-01',
       investorList: [],
       deposit: '',
-      investorId: ''
+      investorId: '',
+      username: ''
     }
   },
   created () {
@@ -65,28 +67,35 @@ export default {
     this.$data.TODAY = now.getFullYear() + '-' + cmonth + '-' + day
     var params = 'planId=' + this.$route.params.planId
     this.post('/api/auth/activity/join', params, function (response) {
-      var data = response.data
-      that.activity = data.activity
-      that.activity.isFirstCss = that.activity.isFirst === '1' ? 'title-l' : 'title-l-2'
-      that.activity.isFirst = that.activity.isFirst === '1' ? '首投' : '复投'
-      that.plan = data.plan
-      that.plan.list = []
-      // that.plan.depositDisplay_s = that.formatterCurrency(that.plan.depositDisplay_s, 0, '')
-      // that.plan.depositDisplay_e = (that.plan.depositDisplay_e !== 0 ? (that.plan.depositDisplay_e === 1 ? '无上限' : that.formatterCurrency(that.plan.depositDisplay_e, 0, '')) : '')
-      that.plan.list.push({label: '投资金额', value: that.plan.depositDisplay_txt})
-      that.plan.rebate = that.formatterCurrency(that.plan.rebate, 2, '')
-      that.plan.list.push({label: '马上多返利', value: that.plan.rebate + '%'})
-      that.plan.totalIncome = that.formatterCurrency(that.plan.totalIncome, 2, '')
-      that.plan.rate = that.formatterCurrency(that.plan.rate, 2, '')
-      that.plan.list.push({label: '年化利率', value: that.plan.rate + '%'})
-      that.plan.redback = that.formatterCurrency(that.plan.redback, 2, '')
-      that.plan.list.push({label: '红包', value: that.plan.redback})
-      that.plan.list.push({label: '总收益', value: '≈ ' + that.plan.totalIncome_txt})
-      that.plan.yearRate = that.formatterCurrency(that.plan.year_rate, 2, '') + '%'
-      that.plan.list.push({label: '综合年化', value: '≈ ' + that.plan.yearRate})
-      for (var i = 0; i < data.investorList.length; i++) {
-        var investor = data.investorList[i]
-        that.investorList.push({key: investor.id, value: investor.name})
+      if (response.status !== '200') {
+        that.$vux.toast.text(response.message, 'middle')
+      } else {
+        var data = response.data
+        that.activity = data.activity
+        that.$store.commit('updateTitle', data.activity.name + '/' + data.plan.name)
+        var logo = that.activity.platform_img
+        that.activity.platform_img = logo.replace('www.msdfanli.com', 'm.msdfanli.com')
+        that.activity.isFirstCss = that.activity.isFirst === '1' ? 'title-l' : 'title-l-2'
+        that.activity.isFirst = that.activity.isFirst === '1' ? '首投' : '复投'
+        that.plan = data.plan
+        that.plan.list = []
+        // that.plan.depositDisplay_s = that.formatterCurrency(that.plan.depositDisplay_s, 0, '')
+        // that.plan.depositDisplay_e = (that.plan.depositDisplay_e !== 0 ? (that.plan.depositDisplay_e === 1 ? '无上限' : that.formatterCurrency(that.plan.depositDisplay_e, 0, '')) : '')
+        that.plan.list.push({label: '投资金额', value: '¥ ' + that.plan.depositDisplay_txt})
+        that.plan.rebate = that.formatterCurrency(that.plan.rebate, 2, '')
+        that.plan.list.push({label: '马上多返利', value: that.plan.rebate + '%'})
+        that.plan.totalIncome = that.formatterCurrency(that.plan.totalIncome, 2, '')
+        that.plan.rate = that.formatterCurrency(that.plan.rate, 2, '')
+        that.plan.list.push({label: '年化利率', value: that.plan.rate + '%'})
+        that.plan.redback = that.formatterCurrency(that.plan.redback, 2, '')
+        that.plan.list.push({label: '红包', value: '¥ ' + that.plan.redback})
+        that.plan.list.push({label: '总收益', value: '≈ ¥ ' + that.plan.totalIncome_txt})
+        that.plan.yearRate = that.formatterCurrency(that.plan.year_rate, 2, '') + '%'
+        that.plan.list.push({label: '综合年化', value: '≈ ' + that.plan.yearRate})
+        for (var i = 0; i < data.investorList.length; i++) {
+          var investor = data.investorList[i]
+          that.investorList.push({key: investor.id, value: investor.name})
+        }
       }
     })
   },
@@ -99,6 +108,11 @@ export default {
     },
     openPlatform (url) {
       window.open(url, '_blank')
+    },
+    imageuploaded (res) {
+      if (res.errcode === 0) {
+        this.src = res.data.src
+      }
     },
     postOrder () {
       // 没有投资人跳转到添加页面
@@ -118,16 +132,18 @@ export default {
         this.$vux.toast.text('请选择投资日期!', 'middle')
         return
       }
+      if (this.activity.requiredUsername && !this.$refs.username.valid) {
+        this.$vux.toast.text('请输入投资账号!', 'middle')
+        return
+      }
       var that = this
-      var params = 'investorId=' + this.investorId + '&planId=' + this.$route.params.planId + '&deposit=' + this.deposit + '&date=' + this.TODAY
+      var params = 'investorId=' + this.investorId + '&planId=' + this.$route.params.planId + '&deposit=' + this.deposit + '&date=' + this.TODAY + '&username=' + this.username
       this.post('/api/auth/order/add_order', params, function (response) {
-        var _hmt = _hmt || []
-        var hm = document.createElement('script')
-        hm.src = 'https://hm.baidu.com/hm.js?38936dfe3f9ea9ac38ef830e808f7321'
-        var s = document.getElementsByTagName('script')[0]
-        s.parentNode.insertBefore(hm, s)
-        _hmt.push(['_trackEvent', '交单', 'PostOrder', '-'])
-        that.$router.push('/middle/Msg')
+        if (response.status !== '200') {
+          that.$vux.toast.text(response.message, 'middle')
+        } else {
+          that.$router.push('/middle/Msg')
+        }
       })
     }
   }

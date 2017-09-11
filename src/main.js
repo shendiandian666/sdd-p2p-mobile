@@ -17,6 +17,7 @@ const store = new Vuex.Store({})
 
 store.registerModule('vux', { // 名字自己定义
   state: {
+    title: '马上多返利',
     isLoading: false,
     reqLoading: false,
     path: '/',
@@ -32,6 +33,9 @@ store.registerModule('vux', { // 名字自己定义
     }
   },
   mutations: {
+    updateTitle (state, title) {
+      state.title = title
+    },
     updateUserInfo (state, newUserInfo) {
       // alert(JSON.stringify(newUserInfo))
       state.userInfo = newUserInfo
@@ -369,7 +373,7 @@ function post (url, params, callback) {
     // localStorage.removeItem('msd.com.token')
     // 系统异常
     // router.push('/home/Login')
-    // alert(JSON.stringify(response))
+    alert(JSON.stringify(response))
     this.$vux.toast.text('系统异常!', 'middle')
   })
 }
@@ -480,7 +484,7 @@ function formatterCurrency (number, places, symbol) {
 }
 Vue.prototype.formatterCurrency = formatterCurrency
 
-Vue.prototype.domain = 'http://m.msdfanli.com'
+Vue.prototype.domain = 'https://m.msdfanli.com'
 
 Vue.filter('money', function (number, places, symbol) {
   number = number || 0
@@ -500,7 +504,6 @@ router.beforeEach(function (to, from, next) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
     if (!checkLogin()) {
-      // localStorage.removeItem('tabItem')
       store.commit('updatePath', to)
       store.commit('updateLoadingStatus', {isLoading: false})
       next({

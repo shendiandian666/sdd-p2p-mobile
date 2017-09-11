@@ -55,6 +55,7 @@ export default {
     }
   },
   created () {
+    this.$store.commit('updateTitle', '提现')
     this.getUserInfo()
   },
   methods: {
@@ -104,17 +105,21 @@ export default {
       var that = this
       var params = 'mobile=' + this.mobile + '&mobile_code=' + this.mobile_code + '&alipay_account=' + this.alipay_account + '&money=' + this.money
       this.post('/api/auth/account/withdraw', params, function (response) {
-        var data = response
-        var _hmt = _hmt || []
-        var hm = document.createElement('script')
-        hm.src = 'https://hm.baidu.com/hm.js?38936dfe3f9ea9ac38ef830e808f7321'
-        var s = document.getElementsByTagName('script')[0]
-        s.parentNode.insertBefore(hm, s)
-        _hmt.push(['_trackEvent', '提现', 'WithDraw', '-'])
-        if (data.status !== '200') {
-          that.$vux.toast.text(data.message, 'middle')
+        if (response.status !== '200') {
+          that.$vux.toast.text(response.message, 'middle')
         } else {
-          that.$router.push('/home/WithdrawMsg')
+          var data = response
+          var _hmt = _hmt || []
+          var hm = document.createElement('script')
+          hm.src = 'https://hm.baidu.com/hm.js?38936dfe3f9ea9ac38ef830e808f7321'
+          var s = document.getElementsByTagName('script')[0]
+          s.parentNode.insertBefore(hm, s)
+          _hmt.push(['_trackEvent', '提现', 'WithDraw', '-'])
+          if (data.status !== '200') {
+            that.$vux.toast.text(data.message, 'middle')
+          } else {
+            that.$router.push('/home/WithdrawMsg')
+          }
         }
       })
     }

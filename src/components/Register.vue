@@ -39,6 +39,9 @@ export default {
       imgcode: this.domain + '/defaultKaptcha'
     }
   },
+  created () {
+    this.$store.commit('updateTitle', '注册')
+  },
   methods: {
     changeCode () {
       this.imgcode = this.domain + '/defaultKaptcha?' + Math.random()

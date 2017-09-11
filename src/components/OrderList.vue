@@ -69,6 +69,7 @@ export default {
     }
   },
   created: function () {
+    this.$store.commit('updateTitle', '交单记录')
     this.fetchData(this.pageNum, this.pageSize)
   },
   watch: {

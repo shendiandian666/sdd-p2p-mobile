@@ -31,6 +31,9 @@ export default {
       new_password_confirm: ''
     }
   },
+  created () {
+    this.$store.commit('updateTitle', '修改密码')
+  },
   methods: {
     update () {
       var that = this

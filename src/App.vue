@@ -2,9 +2,9 @@
 
   <div style="padding-top: 45px; padding-bottom: 50px;">
 
-      <x-header title="马上多返利"
-        style="width: 100%; position: fixed; left: 0px; top: 0px; z-index: 100;background-color:#2c2c2c;"
-        :left-options="leftOptions">
+      <x-header :title="getTitle"
+        style="width: 100%; position: fixed; left: 0px; top: 0px; z-index: 100;background-color:#2b2b2b;"
+        :leftOptions="leftOptions">
         </x-header>
         <transition>
 	    <router-view></router-view>
@@ -65,6 +65,14 @@ export default {
       route: state => state.route,
       path: state => state.route.path
     }),
+    getTitle: {
+      get: function () {
+        return this.$store.state.vux.title
+      },
+      set: function (val) {
+        this.$store.state.vux.title = val
+      }
+    },
     isLoading: {
       get: function () {
         return this.$store.state.vux.isLoading

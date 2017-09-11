@@ -8,7 +8,7 @@
       <x-input title="手机验证码" label-width="6" v-model="mobile_code" keyboard="number" ref="mobile_code" required>
         <x-button mini slot="right" type="primary" action-type="button" @click.native="resendMsg">重新发送</x-button>
       </x-input>
-      <x-input title="QQ号" label-width="6" v-model="qq" placeholder="方便客服与您联系" keyboard="number"></x-input>
+      <x-input title="QQ号" label-width="6" v-model="qq" placeholder="方便客服与您联系" keyboard="number" ref="qq" required></x-input>
       <x-input title="登录密码" label-width="6" type="password" v-model="password" placeholder="用于账户登录" ref="password" required></x-input>
       <x-switch title="同意《马上多服务协议》" v-model="agree" @on-change="agreeChange"></x-switch>
     </group>
@@ -78,6 +78,10 @@ export default {
     register () {
       if (!this.$refs.mobile_code.valid) {
         this.$vux.toast.text('请输入验证码!', 'middle')
+        return
+      }
+      if (!this.$refs.qq.valid) {
+        this.$vux.toast.text('请输入QQ号!', 'middle')
         return
       }
       if (!this.$refs.password.valid) {
