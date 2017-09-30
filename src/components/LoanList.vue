@@ -1,66 +1,34 @@
 <template>
   <div class="activity-list">
 
-    <tab :line-width="2" v-model="index" style="position: fixed; top: 46px; width: 100%; z-index: 90;">
-      <tab-item :selected="tag === item" v-for="(item, index) in taglist" :key="index" @on-item-click="onItemClick" @click="index = item">{{item}}</tab-item>
-    </tab>
-
-    <search style="position: static; margin-top: 45px;" @on-change="getSearch"></search>
+    <search style="position: static;" @on-change="getSearch"></search>
       
-        <v-scroll :on-refresh="onRefresh" :on-infinite="onInfinite" style="posistion:static; top:132px;">
-          <div style="margin-bottom: -40px;">
-            <group title="全部活动">
+        <v-scroll :on-refresh="onRefresh" :on-infinite="onInfinite" style="posistion:static; top:85px;">
+<div style="margin-bottom: -40px;">
+        <group title="全部活动">
 
-              <cell :title="cellTitle" v-for="(item, index) in activityList" :key="index" :link="{path:'/middle/Activity/' + item.id}">
-              
-                <span slot="title" class="activity">
-                  <flexbox orient="vertical" style="margin-bottom: 10px;">
-                    <flexbox-item>
-                        <div class="header">
-                          <img :src="item.platform_img"/> 
-                          <span :class="item.isFirst === '1' ? 'title-l' : 'title-l-2'">
-                          <b>{{item.isFirst === '1' ? '首投' : '复投'}}</b>
-                          </span><b>{{item.name}}</b>
-                        </div>
-                    </flexbox-item>
-                  </flexbox>
-                </span>
-                <span slot="inline-desc" class="activity">
-                  <flexbox>
-                    <flexbox-item>
-                      <div class="header">
-                        <span>投资<b>{{ item.bestDeposit|money(0,'') }}</b>元获得<font color="red"><b>{{ item.bestMoney }}</b></font>元</span>
-                  <span style="padding-left:5px;">年化<font color="red"><b>{{ item.bestInterest }}%</b></font></span>
-                      </div>
-                    </flexbox-item>
-                  </flexbox>
-                  <flexbox>
-                    <flexbox-item>
-                      <div class="header panel">
-                        <ul>
-                          <li><b>评级:{{item.risk}}</b></li>
-                          <li v-for="(tag, index) in item.platform_tags.split(',')"><b>{{tag}}</b></li>
-                        </ul>
-                      </div>
-                    </flexbox-item>
-                  </flexbox>
-                </span>
-                <div slot="value" :class="item.status === '1' ? 'status' : 'status-2'">
-                  <b>{{item.status === '1' ? '进行中' : '已暂停'}}</b>
-                </div>
-              </cell>
+          <cell :title="cellTitle" v-for="(item, index) in activityList" :key="index" :link="{path:'/middle/Activity/' + item.id}">
+            <img slot="icon" width="80" height="35" src="../assets/account.svg" class="pad-right"/>
+            <span slot="title">
+              贷贷还
+            </span>
 
-            </group>
-            <load-more v-show="loadmore" tip="正在加载"></load-more>
-            <load-more v-show="loadbottom" :show-loading="false" tip="我是有底线的" background-color="#fbf9fe"></load-more>
-          </div>
-        </v-scroll>
+            <span slot="inline-desc">
+              22-60周岁 月收入8000元以上
+            </span>
+          </cell>
+
+        </group>
+        <load-more v-show="loadmore" tip="正在加载"></load-more>
+        <load-more v-show="loadbottom" :show-loading="false" tip="我是有底线的" background-color="#fbf9fe"></load-more>
+        </div>
+      </v-scroll>
         
   </div>
 </template>
 
 <script>
-import { Search, LoadMore, Cell, Group, Badge, Divider, Tab, TabItem, Flexbox, FlexboxItem } from 'vux'
+import { Search, LoadMore, Cell, Group, Badge, Divider, Tab, TabItem } from 'vux'
 import Scroll from './pulldown'
 
 const imgList = [
@@ -79,8 +47,6 @@ export default {
     Divider,
     Tab,
     TabItem,
-    Flexbox,
-    FlexboxItem,
     'v-scroll': Scroll
   },
   data () {
@@ -101,7 +67,7 @@ export default {
     }
   },
   created: function () {
-    this.$store.commit('updateTitle', '返利')
+    this.$store.commit('updateTitle', '贷款')
     this.fetchData(this.pageNum, this.pageSize)
   },
   watch: {
@@ -276,29 +242,5 @@ export default {
   border-radius: 4px;
   padding: 0 4px;
   background-clip: padding-box;
-}
-.activity .header {
-  margin-bottom: 10px;
-}
-.activity img {
-  line-height: 100%;
-  float: left;
-  height: 40px;
-  width: 100px;
-}
-.activity .panel b {
-  color: red;
-}
-.activity .panel ul {
-  list-style: none;
-}
-.activity .panel ul li b{
-  border: 1px solid #FF5722;
-  color: #FF5722;
-  border-radius: 2em;
-  float: left;
-  margin-right: 5px;
-  padding: 0px 5px;
-  font-size: 12px;
 }
 </style>

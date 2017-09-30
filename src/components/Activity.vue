@@ -9,25 +9,26 @@
       </div>
     </div>
 
-    <div class="panel"><h4>最高返利方案：<b>{{ activity.bestName }}</b></h4> <div class="content light"><p>投资{{ activity.bestDeposit }}元获得<b>{{ activity.bestMoney }}</b>元，年化<b>{{ activity.bestInterest }}%</b></p> <p>已有<b>{{ activity.joins }}</b>人参与活动</p></div></div>
+    <div class="panel"><h4>最高返利方案：<b>{{ activity.bestName }}</b></h4> <div class="content light"><p>投资{{ activity.bestDeposit }}元获得<b>{{ activity.bestMoney }}</b>元，年化<b>{{ activity.bestInterest }}%</b></p></div></div>
 
     <div class="panel">
-    <h4>平台介绍：</h4> 
-    <div class="content light">
-    <p>{{ activity.platform_intro }}</p> 
-	<ul>
-	<li v-for="(item, index) in activity.platform_tags"><b>{{item}}</b></li>
-	</ul> 
-	<div style="clear: both;"></div>
-	</div>
-	</div>
+      <h4>平台介绍：</h4> 
+      <div class="content light">
+      <p>{{ activity.platform_intro }}</p> 
+    	<ul>
+    	 <li v-for="(item, index) in activity.platform_tags"><b>{{item}}</b></li>
+    	</ul> 
+    	<div style="clear: both;"></div>
+    	</div>
+  	</div>
 
 	<div class="panel">
-  <h4>参与说明：</h4> 
-  <div id="activity-content" class="content" v-html="activity.content">
-  </div></div>
+    <h4>参与说明：</h4> 
+    <div id="activity-content" class="content" v-html="activity.content">
+    </div>
+  </div>
 
-    <div v-for="(item, index) in filterPlanList">
+    <div v-for="(item, index) in filterPlanList" class="panel">
   	  <group>
         <cell v-show="activity.status === '1'" :link="{path:'/middle/ActivityJoin/' + item.id}">
         <span slot="title">{{ item.name }} / {{ item.item }}</span>
@@ -44,6 +45,13 @@
         <cell-form-preview :list="item.list"></cell-form-preview>
         
       </group>
+    </div>
+
+    <div class="panel">
+      <h4>免责声明：</h4> 
+      <div class="content light">
+      <p>马上多仅为信息平台，本身不吸纳用户资金。 活动平台不保证100%安全，如出现意外情况（包括但不局限于平台提现困难/逾期/倒闭/跑路等导致无法拿回本金的情况），马上多不承担任何责任。</p> 
+      </div>
     </div>
   </div>
 </template>
@@ -164,11 +172,11 @@ export default {
 
 .activity .panel {
 	background-color: #fff;
-    border-top: 1px solid #eee;
-    border-bottom: 1px solid #eee;
-    padding: 15px;
-    padding-left: 5px;
-    margin-bottom: 20px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  padding: 15px;
+  padding-left: 5px;
+  margin-bottom: 10px;
 }
 .activity .panel>h4 {
 	font-weight: 400;

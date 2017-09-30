@@ -17,7 +17,7 @@ const store = new Vuex.Store({})
 
 store.registerModule('vux', { // 名字自己定义
   state: {
-    title: '马上多返利',
+    title: '马上多',
     isLoading: false,
     reqLoading: false,
     path: '/',
@@ -110,6 +110,27 @@ const routes = [{
     require(['./components/Msg.vue'], resolve)
   },
   meta: { requiresAuth: true }
+},
+{
+  path: '/loan/LoanList',
+  component: function (resolve) {
+    require(['./components/LoanList.vue'], resolve)
+  },
+  meta: { requiresAuth: false }
+},
+{
+  path: '/ask/AskList',
+  component: function (resolve) {
+    require(['./components/AskList.vue'], resolve)
+  },
+  meta: { requiresAuth: false }
+},
+{
+  path: '/ask/AskDetail/:id',
+  component: function (resolve) {
+    require(['./components/AskDetail.vue'], resolve)
+  },
+  meta: { requiresAuth: false }
 },
 {
   path: '/car/CarList',
@@ -484,7 +505,7 @@ function formatterCurrency (number, places, symbol) {
 }
 Vue.prototype.formatterCurrency = formatterCurrency
 
-Vue.prototype.domain = 'https://m.msdfanli.com'
+Vue.prototype.domain = ''
 
 Vue.filter('money', function (number, places, symbol) {
   number = number || 0

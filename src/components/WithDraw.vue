@@ -21,7 +21,19 @@
       </div>
     </card>
 
-    <group title="">
+    <div class="panel">
+      <h4>温馨提示：</h4> 
+      <div class="content light">
+        <ol class="num_ol">
+          <li>推荐使用支付宝邮箱账号</li>
+          <li>提现免手续费，秒到账，最低提现1元</li>
+          <li>请再三核对您的支付宝收款账号，一经转出无法找回</li>
+          <li>如果您无法收到验证码请与客服联系或稍后再试</li>
+        </ol>
+      </div>
+    </div>
+
+    <group title="支付宝提现">
       <x-input title="支付宝账号" disabled label-width="6" v-model="alipay_account" ref="alipay_account" required>
         <x-button mini slot="right" type="primary" action-type="button" @click.native="setting">设置</x-button>
       </x-input>
@@ -166,5 +178,32 @@ export default {
 }
 .card-demo-flex span {
   color: #f74c31;
+}
+.panel {
+  background-color: #fff;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    padding: 15px;
+    padding-left: 5px;
+}
+.panel>h4 {
+  font-weight: 400;
+    border-left: 5px solid #f2d651;
+    padding-left: 7px;
+    margin-left: 3px;
+    line-height: 100%;
+    margin-bottom: 10px;
+}
+.panel .content {
+  margin-left: 15px;
+    word-wrap: break-word;
+    overflow: hidden;
+}
+.panel .light b {
+  color: red;
+}
+.num_ol {
+    list-style: decimal;
+    padding-left: 1.4em;
 }
 </style>

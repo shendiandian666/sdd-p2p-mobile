@@ -11,9 +11,10 @@
 	      <cell title="交单记录" link="/home/OrderList">
         <img slot="icon" width="18" height="18" src="../assets/order.svg" class="pad-right"/> 
   		  </cell>
+        <!--
   		  <cell title="投资人" link="/home/investorList">
     		<img slot="icon" width="18" height="18" src="../assets/investor.svg" class="pad-right"/> 
-  		  </cell>
+  		  </cell>-->
   		  <cell title="余额" link="/home/WithDraw">
     		<img slot="icon" width="18" height="18" src="../assets/balance.svg" class="pad-right"/> 
         <div slot="default">

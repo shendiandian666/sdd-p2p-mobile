@@ -10,21 +10,38 @@
 
 	<group title="选择的方案">
       <cell>
-      <span slot="title">{{ plan.name }} / {{ plan.item }}</span>
+      <span slot="title">{{ plan.name + ' / ' + plan.item }}</span>
       </cell>
       <cell-form-preview :list="plan.list"></cell-form-preview>
     </group>
 
     <div style="margin: 20px 10px;">
-      <x-button type="warn" v-show="activity.mobileUrl !== ''" action-type="button" @click.native="openPlatform(activity.mobileUrl)">打开投资平台</x-button>
-      <x-button type="warn" v-show="activity.mobileUrl === ''" action-type="button" disabled>此活动为电脑端活动,请使用电脑参与</x-button>
+      <x-button type="warn" v-show="activity.orderby !== 100 && activity.mobileUrl !== ''" action-type="button" @click.native="openPlatform(activity.mobileUrl)">打开投资平台</x-button>
+      <x-button type="warn" v-show="activity.orderby === 100 || activity.mobileUrl === ''" action-type="button" disabled>此活动为电脑端活动,请使用电脑参与</x-button>
+    </div>
+
+    <div class="panel">
+      <h4>交单说明：</h4> 
+      <div class="content light">
+      <p>
+        1､投资金额千位以下不结算。例如: 投资 21300 元，只按照 21000 元结算。<br/>
+        2､交单金额请填写整数，例如：投资10000，使用28红包后总投资金额变为10028，交单时请填写10000。或者用完红包后投资金额变为9972也请填写10000。
+      </p> 
+    </div>
     </div>
     
     <group title="投资完成后交单">
-      <x-input title="实投金额" keyboard="number" placeholder="填写数字,例如:10000" v-model="deposit" ref="deposit" required></x-input>
-      <selector title="投资人" :options="investorList" @on-change="onChange" ref="investor" required></selector>
+      <x-input title="交单方案" label-width="6" :value="plan.name" disabled></x-input>
+      <x-input title="注册手机号" placeholder="平台投资手机号" label-width="6" keyboard="text" v-model="username" ref="username" required></x-input>
+      <x-input title="实投金额" label-width="6" keyboard="number" placeholder="填写数字,例如:10000" v-model="deposit" ref="deposit" required></x-input>
+      
       <datetime v-model="TODAY" @on-change="dateChange" title="投资日期" ref="date" required></datetime>
       <x-input v-show="activity.requiredUsername" title="投资账号" keyboard="text" placeholder="投资平台注册的用户名" v-model="username" ref="username" required></x-input>
+      <x-input title="验证码" class="weui-cell_vcode" v-model="vrifyCode" ref="vrifyCode" required>
+            <span slot="right" @click="changeCode">
+              <img slot="right" class="weui-vcode-img" :src="imgcode"/>
+            </span>
+          </x-input>
     </group>
 
     <div style="margin: 20px 10px;">
@@ -54,7 +71,8 @@ export default {
       investorList: [],
       deposit: '',
       investorId: '',
-      username: ''
+      username: '',
+      imgcode: this.domain + '/defaultKaptcha'
     }
   },
   created () {
@@ -92,6 +110,7 @@ export default {
         that.plan.list.push({label: '总收益', value: '≈ ¥ ' + that.plan.totalIncome_txt})
         that.plan.yearRate = that.formatterCurrency(that.plan.year_rate, 2, '') + '%'
         that.plan.list.push({label: '综合年化', value: '≈ ' + that.plan.yearRate})
+        that.investorList.push({key: '00', value: '添加'})
         for (var i = 0; i < data.investorList.length; i++) {
           var investor = data.investorList[i]
           that.investorList.push({key: investor.id, value: investor.name})
@@ -100,6 +119,15 @@ export default {
     })
   },
   methods: {
+    changeCode () {
+      this.imgcode = this.domain + '/defaultKaptcha?' + Math.random()
+      var _hmt = _hmt || []
+      var hm = document.createElement('script')
+      hm.src = 'https://hm.baidu.com/hm.js?38936dfe3f9ea9ac38ef830e808f7321'
+      var s = document.getElementsByTagName('script')[0]
+      s.parentNode.insertBefore(hm, s)
+      _hmt.push(['_trackEvent', '验证码', 'Kaptcha', '-'])
+    },
     onChange (val) {
       this.investorId = val
     },
@@ -214,7 +242,7 @@ export default {
     border-bottom: 1px solid #eee;
     padding: 15px;
     padding-left: 5px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 .activity .panel>h4 {
 	font-weight: 400;

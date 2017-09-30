@@ -21,17 +21,23 @@
             <span slot="label">首页</span>
           </tabbar-item>
           <tabbar-item :link="{path:'/middle/ActivityList'}" :selected="isMiddle">
-            <img slot="icon" src="./assets/activity.svg"/>
-            <img slot="icon-active" src="./assets/activity_active.svg"/>
+            <img slot="icon" src="./assets/rebate.svg"/>
+            <img slot="icon-active" src="./assets/rebate_active.svg"/>
             <span class="demo-icon-22" slot="icon">&#xe633;</span>
-            <span slot="label">活动</span>
+            <span slot="label">返利</span>
           </tabbar-item>
-          <!--<tabbar-item :link="{path:'/car/CarList'}" :selected="isCar">
-            <img slot="icon" src="./assets/car.svg"/>
-            <img slot="icon-active" src="./assets/car_active.svg"/>
+          <!--<tabbar-item :link="{path:'/loan/LoanList'}" :selected="isLoan">
+            <img slot="icon" src="./assets/loan.svg"/>
+            <img slot="icon-active" src="./assets/loan_active.svg"/>
             <span class="demo-icon-22" slot="icon">&#xe633;</span>
-            <span slot="label">搭车</span>
+            <span slot="label">贷款</span>
           </tabbar-item>-->
+          <tabbar-item :link="{path:'/ask/AskList'}" :selected="isAsk">
+            <img slot="icon" src="./assets/ask.svg"/>
+            <img slot="icon-active" src="./assets/ask_active.svg"/>
+            <span class="demo-icon-22" slot="icon">&#xe633;</span>
+            <span slot="label">公告</span>
+          </tabbar-item>
           <tabbar-item :link="{path:'/home/Login'}" :selected="isHome">
             <img slot="icon" src="./assets/user.svg"/>
             <img slot="icon-active" src="./assets/user_active.svg"/>
@@ -53,12 +59,6 @@ export default {
     XHeader,
     Tabbar,
     TabbarItem
-  },
-  created () {
-    var token = localStorage.getItem('msd.com.token')
-    if (token !== null) {
-      // this.getUserInfo()
-    }
   },
   computed: {
     ...mapState({
@@ -95,6 +95,12 @@ export default {
     isMiddle () {
       return /middle/.test(this.route.path)
     },
+    isLoan () {
+      return /loan/.test(this.route.path)
+    },
+    isAsk () {
+      return /ask/.test(this.route.path)
+    },
     isCar () {
       return /car/.test(this.route.path)
     },
@@ -103,7 +109,7 @@ export default {
     },
     leftOptions () {
       return {
-        showBack: this.route.path !== '/' && this.route.path !== '/middle/ActivityList' && this.route.path !== '/car/CarList' && this.route.path !== '/home/Login'
+        showBack: this.route.path !== '/' && this.route.path !== '/middle/ActivityList' && this.route.path !== '/loan/LoanList' && this.route.path !== '/ask/AskList' && this.route.path !== '/home/Login'
       }
     }
   }

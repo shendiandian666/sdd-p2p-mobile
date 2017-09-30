@@ -16,23 +16,41 @@
           <spinner type="ios" v-show="spinner"></spinner>
           
           <cell :title="cellTitle" v-for="(item, index) in activityList" :key="index" :link="{path:'/middle/Activity/' + item.id}">
-
-          <span slot="title">
-            <span slot="icon" :class="item.isFirst === '1' ? 'title-l' : 'title-l-2'">
-            <b>{{item.isFirst === '1' ? '首投' : '复投'}}</b>
+            <span slot="title" class="activity">
+              <flexbox orient="vertical" style="margin-bottom: 10px;">
+                <flexbox-item>
+                    <div class="header">
+                      <img :src="item.platform_img"/> 
+                      <span :class="item.isFirst === '1' ? 'title-l' : 'title-l-2'">
+                      <b>{{item.isFirst === '1' ? '首投' : '复投'}}</b>
+                      </span><b>{{item.name}}</b>
+                    </div>
+                </flexbox-item>
+              </flexbox>
             </span>
-            {{item.name}}
-            <span class="join-span">{{item.joins}}人参与</span>
-          </span>
-
-          <span slot="inline-desc">
-            <span>投资{{ item.bestDeposit|money(0,'') }}元获得<font color="red"><b>{{ item.bestMoney }}</b></font>元</span>
-            <span style="padding-left:5px;">年化<font color="red"><b>{{ item.bestInterest }}%</b></font></span>
-          </span>
-          
-          <div slot="value" :class="item.status === '1' ? 'status' : 'status-2'">
-            <b>{{item.status === '1' ? '进行中' : '已暂停'}}</b>
-          </div>
+            <span slot="inline-desc" class="activity">
+              <flexbox>
+                <flexbox-item>
+                  <div class="header">
+                    <span>投资<b>{{ item.bestDeposit|money(0,'') }}</b>元获得<font color="red"><b>{{ item.bestMoney }}</b></font>元</span>
+              <span style="padding-left:5px;">年化<font color="red"><b>{{ item.bestInterest }}%</b></font></span>
+                  </div>
+                </flexbox-item>
+              </flexbox>
+              <flexbox>
+                <flexbox-item>
+                  <div class="header panel">
+                    <ul>
+                      <li><b>评级:{{item.risk}}</b></li>
+                      <li v-for="(tag, index) in item.platform_tags.split(',')"><b>{{tag}}</b></li>
+                    </ul>
+                  </div>
+                </flexbox-item>
+              </flexbox>
+            </span>
+            <div slot="value" :class="item.status === '1' ? 'status' : 'status-2'">
+              <b>{{item.status === '1' ? '进行中' : '已暂停'}}</b>
+            </div>
           </cell>
           <div>
             <loading v-model="loading" text="loading"></loading>
@@ -80,7 +98,7 @@ export default {
     }
   },
   created: function () {
-    this.$store.commit('updateTitle', '马上多返利')
+    this.$store.commit('updateTitle', '马上多')
     var params = 'type=' + this.imgType
     this.$http.post(this.domain + '/api/anon/index/getSwiper', params).then((response) => {
       this.imgList = response.data.data
@@ -240,5 +258,29 @@ export default {
 }
 .flex-demo {
   text-align: center;
+}
+.activity .header {
+  margin-bottom: 10px;
+}
+.activity img {
+  line-height: 100%;
+  float: left;
+  height: 40px;
+  width: 100px;
+}
+.activity .panel b {
+  color: red;
+}
+.activity .panel ul {
+  list-style: none;
+}
+.activity .panel ul li b{
+  border: 1px solid #FF5722;
+  color: #FF5722;
+  border-radius: 2em;
+  float: left;
+  margin-right: 5px;
+  padding: 0px 5px;
+  font-size: 12px;
 }
 </style>

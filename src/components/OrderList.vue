@@ -130,7 +130,7 @@ export default {
       var that = this
       return orderList.filter(function (item) {
         item.list = []
-        item.list.push({label: '投资人', value: item.investor_phone + ' - ' + item.investor_name})
+        item.list.push({label: '投资人手机', value: item.investor_phone})
         item.list.push({label: '投资日期', value: item.invest_date})
         item.list.push({label: '回款日期', value: item.received_date})
         item.cashBack = that.formatterCurrency(item.cash_back, 2, '￥')

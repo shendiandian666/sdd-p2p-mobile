@@ -14,7 +14,7 @@
     <divider>交单信息</divider>
     <group :title="OrderDetail.post_date" style="margin-bottom:20px;">
       <cell title="投资日期" :value="OrderDetail.invest_date"></cell>
-      <cell title="投资人" :value="OrderDetail.investor_phone + ' ' + OrderDetail.investor_name"></cell>
+      <cell title="投资人手机" :value="OrderDetail.investor_phone"></cell>
       <cell title="实投金额" :value="OrderDetail.deposit"></cell>
       <cell title="返现金额" :value="OrderDetail.cash_back"></cell>
       <cell title="平台利息" :value="'≈ ' + OrderDetail.interest"></cell>
